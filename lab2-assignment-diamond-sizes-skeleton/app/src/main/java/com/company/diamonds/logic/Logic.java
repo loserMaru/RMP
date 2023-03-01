@@ -11,7 +11,7 @@ import com.company.diamonds.ui.OutputInterface;
  * learn the complexities of Android.
  */
 public class Logic
-       implements LogicInterface {
+        implements LogicInterface {
     /**
      * This is a String to be used in Logging (if/when you decide you
      * need it for debugging).
@@ -35,7 +35,7 @@ public class Logic
      * It assigns the passed in [MainActivity] instance (which
      * implements [OutputInterface]) to 'out'.
      */
-    public Logic(OutputInterface out){
+    public Logic(OutputInterface out) {
         mOut = out;
     }
 
@@ -45,8 +45,25 @@ public class Logic
      */
     public void process(int size) {
 
-        // TODO -- add your code here
-
+        for (int i = -size; i <= size; i++) {
+            // horizontal axis
+            for (int j = -size - 1; j <= size + 1; j++)
+                if (j == 0) continue; // skip middle vertical
+                else if (Math.abs(j) == size + 1) // vertical borders & corners
+                    mOut.print(Math.abs(i) == size ? "+" : "|");
+                else if (Math.abs(i) == size) // horizontal borders
+                    mOut.print("-");
+                else if (i == 0 && Math.abs(j) == size) // middle left & right tips
+                    mOut.print(j == -size ? "<" : ">");
+                else if (Math.abs(i - j) == size) // upper right & lower left edges
+                    mOut.print("\\");
+                else if (Math.abs(i + j) == size) // upper left & lower right edges
+                    mOut.print("/");
+                else if (Math.abs(i) + Math.abs(j) < size) // inner rhombus lines
+                    mOut.print((size - i) % 2 != 0 ? "=" : "-");
+                else // whitespace
+                    mOut.print(" ");
+            mOut.println(""); // new line
+        }
     }
-
 }
